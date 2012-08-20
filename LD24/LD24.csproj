@@ -70,9 +70,7 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <ProjectReference Include="..\MrPhilEngine\MrPhilEngine.csproj">
       <Project>{9297BCBA-D8DD-4969-8314-721B05A924C7}</Project>
@@ -119,9 +117,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Properties\app.manifest" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
