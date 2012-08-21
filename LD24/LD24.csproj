@@ -72,12 +72,6 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <ProjectReference Include="..\MrPhilEngine\MrPhilEngine.csproj">
-      <Project>{9297BCBA-D8DD-4969-8314-721B05A924C7}</Project>
-      <Name>MrPhilEngine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
@@ -119,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MrPhilEngine\MrPhilEngine.csproj">
+      <Project>{4BB09B39-E454-44AD-8BE1-0E446C58C7F2}</Project>
+      <Name>MrPhilEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

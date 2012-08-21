@@ -2,6 +2,7 @@
 using MrPhilEngine;
 using SFML.Graphics;
 using SFML.Window;
+using System.IO;
 
 namespace LD24.MrPhil
 {
@@ -11,6 +12,7 @@ namespace LD24.MrPhil
     {
         private static Sound sound;
         private static bool quit = false;
+        private static Screen currentScreen;
 
         static int Main(string[] args)
         {
@@ -19,6 +21,8 @@ namespace LD24.MrPhil
             RenderWindow window = new RenderWindow(videoMode,
                 "Learn SFML");
             window.Closed += new EventHandler(window_Closed);
+            window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(window_MouseButtonPressed);
+            window.MouseMoved += new EventHandler<MouseMoveEventArgs>(window_MouseMoved);
 
             Start();
 
@@ -28,11 +32,22 @@ namespace LD24.MrPhil
                 window.DispatchEvents();
 
                 // Draw
+                currentScreen.Draw(window);
                 window.Display();
             }
             window.Close();
 
             return 0;
+        }
+
+        static void window_MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            currentScreen.MouseMoved(e.X, e.Y);
+        }
+
+        static void window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            currentScreen.MouseButtonPressed(e.Button, e.X, e.Y);
         }
 
         static void window_Closed(object sender, EventArgs e)
@@ -43,13 +58,19 @@ namespace LD24.MrPhil
         static void Start()
         {
             // Create screen
+            Screen screen = new Screen();
 
             // Register the screen
+            currentScreen = screen;
 
-            Button button = new Button();
-            button.Click += new Button.ClickEventHandler(button_Click);
+            // Register the background image
+            MrPhilEngine.Image image = screen.CreateImage(Path.GetFullPath("Map.png"));
 
             // Register the button with the screen
+            Button button = screen.CreateButton();
+            button.Click += new Button.ClickEventHandler(button_Click);
+            button.SetTextureNameButton(Path.GetFullPath("airplane.png"));
+            button.SetTextureNameButtonMouseOver(Path.GetFullPath("airplane-Inverse.png"));
 
             // Create the sound
             sound = new Sound();
