@@ -7,8 +7,7 @@ using SFML.Audio;
 
 namespace LD24.MrPhil
 {
-    // Display a button
-    // Play sound when clicked
+
     class Program
     {
         private static bool quit = false;
@@ -24,6 +23,7 @@ namespace LD24.MrPhil
             window.Closed += new EventHandler(window_Closed);
             window.MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(window_MouseButtonPressed);
             window.MouseMoved += new EventHandler<MouseMoveEventArgs>(window_MouseMoved);
+            window.KeyPressed += new EventHandler<KeyEventArgs>(window_KeyPressed);
 
             Start();
 
@@ -41,6 +41,11 @@ namespace LD24.MrPhil
             window.Close();
 
             return 0;
+        }
+
+        static void window_KeyPressed(object sender, KeyEventArgs e)
+        {
+            currentScreen.KeyPressed(e.Code);
         }
 
         static void window_MouseMoved(object sender, MouseMoveEventArgs e)
@@ -76,8 +81,20 @@ namespace LD24.MrPhil
             button.SetTextureNameButtonMouseOver(Path.GetFullPath("airplane-Inverse.png"));
             button.SetSoundClick(Path.GetFullPath("Click.wav"));
 
+            // a Key drive button
+            Button button2 = screen.CreateButton();
+            button2.Shortcut += new Button.ShortcutEventHandler(button2_Shortcut);
+            button2.SetTextureNameButton(Path.GetFullPath("airplane.png"));
+            button2.SetKeyShortcut(Keyboard.Key.S);
+            button2.X = 100;
+
             // Create the sound
             sound = screen.CreateSound("Click2.wav");
+        }
+
+        static void button2_Shortcut(object sender, EventArgs e)
+        {
+            ((Button)sender).SetTextureNameButton(Path.GetFullPath("airplane-Inverse.png"));
         }
 
         static void button_Click(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.IO;
 using SFML.Graphics;
 using System.Collections.Generic;
 using SFML.Audio;
+using SFML.Window;
 
 namespace MrPhilEngine
 {
@@ -52,7 +53,7 @@ namespace MrPhilEngine
             {
                 foreach (Entity iEntity in entities)
                 {
-                    iEntity.ClickMessage(x, y);
+                    iEntity.MessageClick(x, y);
                 }
             }
         }
@@ -65,5 +66,13 @@ namespace MrPhilEngine
             }
         }
 
+
+        public void KeyPressed(Keyboard.Key key)
+        {
+            foreach (Entity iEntity in entities)
+            {
+                iEntity.MessageKeyPressed(key);
+            }
+        }
     }
 }

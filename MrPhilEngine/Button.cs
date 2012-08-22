@@ -1,6 +1,7 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.Audio;
+using SFML.Window;
 
 namespace MrPhilEngine
 {
@@ -11,9 +12,30 @@ namespace MrPhilEngine
         private Sprite spriteMouseOverButton;
         private bool mouseHover = false;
         private Sound soundClick;
+        private Keyboard.Key keyShortcut;
 
+        // Events
         public delegate void ClickEventHandler(object sender, EventArgs e);
         public event ClickEventHandler Click;
+
+        protected virtual void OnClick(EventArgs e)
+        {
+            if (soundClick != null)
+            {
+                soundClick.Play();
+            }
+
+            if (Click != null)
+                Click(this, e);
+        }
+
+        public delegate void ShortcutEventHandler(object sender, EventArgs e);
+        public event ShortcutEventHandler Shortcut;
+        protected virtual void OnShortcut(EventArgs e)
+        {
+            if (Shortcut != null)
+                Shortcut(this, e);
+        }
 
         public Button(ResourceManager resourceManager)
         {
@@ -24,23 +46,17 @@ namespace MrPhilEngine
         {
             Texture texture = resourceManager.GetTexture(textureName);
             spriteButton = new Sprite(texture);
+            SetButtonPosition(x, y);
         }
 
         public void SetTextureNameButtonMouseOver(string textureName)
         {
             Texture texture = resourceManager.GetTexture(textureName);
             spriteMouseOverButton = new Sprite(texture);
+            SetButtonPosition(x, y);
         }
 
-        protected virtual void OnClick(EventArgs e)
-        {
-            soundClick.Play();
-
-            if (Click != null)
-                Click(this, e);
-        }
-
-        override public void ClickMessage(int x, int y)
+        override public void MessageClick(int x, int y)
         {
             IntRect intRect = new IntRect(x, y, 1, 1);
 
@@ -51,15 +67,25 @@ namespace MrPhilEngine
             }
         }
 
+        override public void MessageKeyPressed(Keyboard.Key key)
+        {
+            if (key == keyShortcut)
+            {
+                EventArgs e = new EventArgs();
+                OnShortcut(e);
+            }
+        }
+
         override public void Draw(RenderWindow window)
         {
-            if (mouseHover)
+            if (mouseHover
+                && spriteMouseOverButton != null)
             {
-                window.Draw(spriteButton);
+                window.Draw(spriteMouseOverButton);
             }
             else
             {
-                window.Draw(spriteMouseOverButton);
+                window.Draw(spriteButton);
             }
         }
 
@@ -81,5 +107,52 @@ namespace MrPhilEngine
         {
             soundClick = new Sound(resourceManager.GetSound(soundName));
         }
+
+        public void SetKeyShortcut(Keyboard.Key key)
+        {
+            keyShortcut = key;
+        }
+
+        public void SetButtonPosition(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+
+            if (spriteButton != null)
+            {
+                spriteButton.Position = new Vector2f(x, y);
+            }
+
+            if (spriteMouseOverButton != null)
+            {
+                spriteMouseOverButton.Position = new Vector2f(x, y);
+            }
+        }
+
+        public int X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                SetButtonPosition(value, Y);
+            }
+        }
+        private int x;
+
+        public int Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                SetButtonPosition(X, value);
+            }
+        }
+        private int y;
     }
 }

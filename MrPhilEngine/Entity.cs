@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace MrPhilEngine
 {
@@ -8,7 +9,10 @@ namespace MrPhilEngine
         public abstract void Draw(RenderWindow window);
 
         // Mouse Messages
-        public abstract void ClickMessage(int x, int y);
-        public abstract void MessageMouseMove(int x, int y);
+        public virtual void MessageClick(int x, int y) { }
+        public virtual void MessageMouseMove(int x, int y) { }
+
+        // Key Messages
+        public virtual void MessageKeyPressed(Keyboard.Key key) { }
     }
 }

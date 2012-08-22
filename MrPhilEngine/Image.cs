@@ -32,14 +32,5 @@ namespace MrPhilEngine
         {
             window.Draw(Sprite);
         }
-
-        public override void ClickMessage(int x, int y)
-        {
-            // Do nothing!
-        }
-
-        public override void MessageMouseMove(int x, int y)
-        {
-        }
     }
 }
