@@ -45,12 +45,12 @@ namespace LD24.MrPhil
 
         static void window_KeyPressed(object sender, KeyEventArgs e)
         {
-            currentScreen.KeyPressed(e.Code);
+            currentScreen.MessageKeyPressed(e.Code);
         }
 
         static void window_MouseMoved(object sender, MouseMoveEventArgs e)
         {
-            currentScreen.MouseMoved(e.X, e.Y);
+            currentScreen.MessageMouseMove(e.X, e.Y);
         }
 
         static void window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
@@ -88,8 +88,19 @@ namespace LD24.MrPhil
             button2.SetKeyShortcut(Keyboard.Key.S);
             button2.X = 100;
 
+            // Play a sound when the letter K is pressed
+            Button button3 = screen.CreateButton();
+            button3.Shortcut += new Button.ShortcutEventHandler(button3_Shortcut);
+            button3.SetKeyShortcut(Keyboard.Key.K);
+
             // Create the sound
             sound = screen.CreateSound("Click2.wav");
+        }
+
+        static void button3_Shortcut(object sender, EventArgs e)
+        {
+            // Play the sound
+            sound.Play();
         }
 
         static void button2_Shortcut(object sender, EventArgs e)

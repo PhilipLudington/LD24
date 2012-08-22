@@ -60,7 +60,8 @@ namespace MrPhilEngine
         {
             IntRect intRect = new IntRect(x, y, 1, 1);
 
-            if (spriteButton.TextureRect.Intersects(intRect))
+            if (spriteButton != null
+                && spriteButton.TextureRect.Intersects(intRect))
             {
                 EventArgs e = new EventArgs();
                 OnClick(e);
@@ -85,7 +86,10 @@ namespace MrPhilEngine
             }
             else
             {
-                window.Draw(spriteButton);
+                if (spriteButton != null)
+                {
+                    window.Draw(spriteButton);
+                }
             }
         }
 
@@ -93,7 +97,8 @@ namespace MrPhilEngine
         {
             IntRect intRect = new IntRect(x, y, 1, 1);
 
-            if (spriteButton.TextureRect.Intersects(intRect))
+            if (spriteButton != null
+                && spriteButton.TextureRect.Intersects(intRect))
             {
                 mouseHover = true;
             }

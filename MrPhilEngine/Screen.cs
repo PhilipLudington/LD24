@@ -58,7 +58,7 @@ namespace MrPhilEngine
             }
         }
 
-        public void MouseMoved(int x, int y)
+        public void MessageMouseMove(int x, int y)
         {
             foreach (Entity iEntity in entities)
             {
@@ -67,7 +67,7 @@ namespace MrPhilEngine
         }
 
 
-        public void KeyPressed(Keyboard.Key key)
+        public void MessageKeyPressed(Keyboard.Key key)
         {
             foreach (Entity iEntity in entities)
             {
