@@ -2,6 +2,7 @@
 using System.IO;
 using SFML.Graphics;
 using System.Collections.Generic;
+using SFML.Audio;
 
 namespace MrPhilEngine
 {
@@ -40,6 +41,11 @@ namespace MrPhilEngine
             return button;
         }
 
+        public Sound CreateSound(string soundName)
+        {
+            return new Sound(resourceManager.GetSound(soundName));
+        }
+
         public void MouseButtonPressed(SFML.Window.Mouse.Button button, int x, int y)
         {
             if (button == SFML.Window.Mouse.Button.Left)
@@ -58,5 +64,6 @@ namespace MrPhilEngine
                 iEntity.MessageMouseMove(x, y);
             }
         }
+
     }
 }

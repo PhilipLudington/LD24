@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.Graphics;
+using SFML.Audio;
 
 namespace MrPhilEngine
 {
@@ -9,6 +10,7 @@ namespace MrPhilEngine
         private Sprite spriteButton;
         private Sprite spriteMouseOverButton;
         private bool mouseHover = false;
+        private Sound soundClick;
 
         public delegate void ClickEventHandler(object sender, EventArgs e);
         public event ClickEventHandler Click;
@@ -32,12 +34,21 @@ namespace MrPhilEngine
 
         protected virtual void OnClick(EventArgs e)
         {
+            soundClick.Play();
+
             if (Click != null)
                 Click(this, e);
         }
 
         override public void ClickMessage(int x, int y)
         {
+            IntRect intRect = new IntRect(x, y, 1, 1);
+
+            if (spriteButton.TextureRect.Intersects(intRect))
+            {
+                EventArgs e = new EventArgs();
+                OnClick(e);
+            }
         }
 
         override public void Draw(RenderWindow window)
@@ -64,6 +75,11 @@ namespace MrPhilEngine
             {
                 mouseHover = false;
             }
+        }
+
+        public void SetSoundClick(string soundName)
+        {
+            soundClick = new Sound(resourceManager.GetSound(soundName));
         }
     }
 }

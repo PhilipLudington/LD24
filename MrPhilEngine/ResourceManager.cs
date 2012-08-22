@@ -1,30 +1,48 @@
 ﻿using System;
 using System.Collections;
 using SFML.Graphics;
+using SFML.Audio;
 
 namespace MrPhilEngine
 {
     public class ResourceManager
     {
-        Hashtable textureList;
+        Hashtable hashtableTextures;
+        Hashtable hashtableSoundBuffers;
 
         public ResourceManager()
         {
-            textureList = new Hashtable(25);
+            hashtableTextures = new Hashtable(25);
+            hashtableSoundBuffers = new Hashtable(25);
         }
 
-        public Texture GetTexture(string fullPathToResource)
+        public Texture GetTexture(string textureName)
         {
-            if (textureList.ContainsKey(fullPathToResource))
+            if (hashtableTextures.ContainsKey(textureName))
             {
-                return (Texture)textureList[fullPathToResource];
+                return (Texture)hashtableTextures[textureName];
             }
             else
             {
-                Texture texture = new Texture(fullPathToResource);
-                textureList.Add(fullPathToResource, texture);
+                Texture texture = new Texture(textureName);
+                hashtableTextures.Add(textureName, texture);
 
                 return texture;
+            }
+        }
+
+        public SoundBuffer GetSound(string soundName)
+        {
+            if (hashtableSoundBuffers.ContainsKey(soundName))
+            {
+                return (SoundBuffer)hashtableSoundBuffers[soundName];
+            }
+            else
+            {
+                SoundBuffer soundBuffer = new SoundBuffer(soundName);
+                hashtableSoundBuffers.Add(soundName, soundBuffer);
+
+                return soundBuffer;
             }
         }
     }

@@ -3,6 +3,7 @@ using MrPhilEngine;
 using SFML.Graphics;
 using SFML.Window;
 using System.IO;
+using SFML.Audio;
 
 namespace LD24.MrPhil
 {
@@ -10,9 +11,9 @@ namespace LD24.MrPhil
     // Play sound when clicked
     class Program
     {
-        private static Sound sound;
         private static bool quit = false;
         private static Screen currentScreen;
+        private static Sound sound;
 
         static int Main(string[] args)
         {
@@ -25,6 +26,8 @@ namespace LD24.MrPhil
             window.MouseMoved += new EventHandler<MouseMoveEventArgs>(window_MouseMoved);
 
             Start();
+
+            Console.Out.WriteLine("Engine Started Successfully!");
 
             while (window.IsOpen()
                 && !quit)
@@ -71,11 +74,10 @@ namespace LD24.MrPhil
             button.Click += new Button.ClickEventHandler(button_Click);
             button.SetTextureNameButton(Path.GetFullPath("airplane.png"));
             button.SetTextureNameButtonMouseOver(Path.GetFullPath("airplane-Inverse.png"));
+            button.SetSoundClick(Path.GetFullPath("Click.wav"));
 
             // Create the sound
-            sound = new Sound();
-
-            Console.Out.WriteLine("Start!");
+            sound = screen.CreateSound("Click2.wav");
         }
 
         static void button_Click(object sender, EventArgs e)
