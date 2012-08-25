@@ -6,6 +6,8 @@ public class LD24 : MonoBehaviour
 {
     private List<FSprite> bricks = new List<FSprite>();
     private FContainer fContainerMain = new FContainer();
+    private FContainer fContainerDeath = new FContainer();
+    private FContainer fContainerBackground = new FContainer();
     private FSprite player;
     private float playerSpeedX = 0.0f;
     private float playerSpeedY = 0.0f;
@@ -27,6 +29,8 @@ public class LD24 : MonoBehaviour
         Futile.screen.SignalResize += new System.Action<bool>(screen_SignalResize);
         screen_SignalResize(true);
 
+        Futile.stage.AddChild(fContainerBackground);
+        Futile.stage.AddChild(fContainerDeath);
         Futile.stage.AddChild(fContainerMain);
 
         Futile.atlasManager.LoadAtlas("Atlases/Atlas-1");
@@ -36,7 +40,7 @@ public class LD24 : MonoBehaviour
         sprite3.y = Futile.screen.halfHeight;
         sprite3.scale = 500;
 
-        fContainerMain.AddChild(sprite3);
+        fContainerBackground.AddChild(sprite3);
 
         player = new FSprite("Brick.png");
         player.anchorX = 0;
@@ -181,16 +185,22 @@ public class LD24 : MonoBehaviour
         }
 
         // Did we bump into a brick?
-        foreach (FSprite brick in bricks)
+        for (int i = bricks.Count - 1; i >= 0; i--)
         {
+            FSprite brick = bricks[i];
+
             Rect rectBrick = brick.textureRect.CloneAndOffset(brick.x, brick.y);
             Rect rectPlayer = player.textureRect.CloneAndOffset(player.x, player.y);
             if (rectPlayer.CheckIntersect(rectBrick))
             {
-                if (rectPlayer.y + player.height >= rectBrick.y)
+                if (rectPlayer.y + player.height >= rectBrick.y
+                    && rectPlayer.y + player.height <= rectBrick.y + brick.height)
                 {
                     playerSpeedY = 0;
                     player.y = rectBrick.y - player.height - 1;
+
+                    BrickDeath(brick);
+                    bricks.Remove(brick);
                 }
             }
         }
@@ -202,6 +212,24 @@ public class LD24 : MonoBehaviour
         player.y += playerSpeedY;
     }
 
+    private void BrickDeath(FSprite brick)
+    {
+        fContainerDeath.AddChild(brick);
+
+        TweenConfig tweenConfig = new TweenConfig()
+            .floatProp("scale", 1.6f)
+            .floatProp("alpha", 0.0f)
+            .colorProp("color", new Color(1, 1, 1, 1))
+            .onComplete(BrickDead);
+        Go.to(brick, 0.3f, tweenConfig);
+    }
+
+    private static void BrickDead(AbstractTween tween)
+    {
+        FSprite brick = (tween as Tween).target as FSprite;
+        brick.RemoveFromContainer();
+    }
+
     private void AddLogos()
     {
 
@@ -211,7 +239,7 @@ public class LD24 : MonoBehaviour
         sprite.x = 10;
         sprite.y = 10;
 
-        fContainerMain.AddChild(sprite);
+        fContainerBackground.AddChild(sprite);
 
         FSprite sprite2 = new FSprite("MrPhilGamesLogo737.png");
         sprite2.anchorX = 0;
@@ -219,6 +247,6 @@ public class LD24 : MonoBehaviour
         sprite2.x = 0;
         sprite2.y = Futile.screen.height - sprite2.height;
 
-        fContainerMain.AddChild(sprite2);
+        fContainerBackground.AddChild(sprite2);
     }
 }
