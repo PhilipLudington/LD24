@@ -15,5 +15,4 @@ obj
 /Temp
 /Diary
 /Assets/Resources/Atlases
-/Art/*.png
-/Art/*.png.meta
+/Art/Atlas-1/*.png
