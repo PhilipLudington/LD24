@@ -95,6 +95,9 @@ namespace LD24.MrPhil
 
             // Create the sound
             sound = screen.CreateSound("Click2.wav");
+
+            // Show some Text
+            Text text = new Text("MrPhil was here.");
         }
 
         static void button3_Shortcut(object sender, EventArgs e)
