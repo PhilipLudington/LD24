@@ -7,7 +7,10 @@ public class LD24 : MonoBehaviour
     private List<FSprite> bricks = new List<FSprite>();
     private FContainer fContainerMain = new FContainer();
     private FSprite player;
-    private float playerSpeed = 40.0f;
+    private float playerSpeedX = 0.0f;
+    private float playerSpeedY = 0.0f;
+    private float playerAccerlation = 5.0f;
+    private float playerSpeedMax = 100.0f;
 
     // Use this for initialization
     void Start()
@@ -58,7 +61,7 @@ public class LD24 : MonoBehaviour
 
         fContainerMain.AddChild(player);
 
-        for (int x = 25; x + 40 < 1024; x += 44)
+        for (int x = 33; x + 40 < 1024; x += 44)
         {
             for (int y = 14 * 4; y + 10 < 768 - (14 * 1); y += 14)
             {
@@ -86,7 +89,85 @@ public class LD24 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        player.x += Input.GetAxis("Horizontal") * playerSpeed * Time.deltaTime;
-        player.y += Input.GetAxis("Vertical") * playerSpeed * Time.deltaTime;
+        // Did we bump into a brick?
+        foreach (FSprite brick in bricks)
+        {
+            Rect rectBrick = brick.textureRect.CloneAndMultiply(brick.scale).CloneAndOffset(brick.x, brick.y);
+
+            if (player.textureRect.CloneAndMultiply(player.scale).CheckIntersect(rectBrick))
+            {
+                playerSpeedY = 0;
+                playerSpeedX = 0;
+                Debug.Log("Bump");
+            }
+        }
+
+        // Did we bump into the left or right of the screen?
+        if (player.x + player.width > 1024 )
+        {
+            Debug.Log(player.x);
+            playerSpeedX = 0;
+            player.x = 1024 - player.width;
+        }
+        else if( player.x < 0)
+        {
+            Debug.Log(player.x);
+            playerSpeedX = 0;
+            player.x = 0;
+        }
+        else
+        {
+            playerSpeedX += Input.GetAxis("Horizontal") * playerAccerlation * Time.deltaTime;
+        }
+
+        // Are we at the top speed for X?
+        if (Math.Abs(playerSpeedX) > playerSpeedMax)
+        {
+            if (playerSpeedX < 0)
+            {
+                playerSpeedX = -1 * playerSpeedMax;
+            }
+            else
+            {
+                playerSpeedX = playerSpeedMax;
+            }
+        }
+
+        // Move along X at our speed
+        player.x += playerSpeedX;
+
+        // Did we bump into bottom or top of the screen?
+        if (player.y + player.height > 768 )
+        {
+            Debug.Log(player.y);
+            playerSpeedY = 0;
+            player.y = 768 - player.height;
+        }
+        else if( player.y < 0)
+        {
+            Debug.Log(player.y);
+            playerSpeedY = 0;
+            player.y = 0;
+        }
+        else
+        {
+            playerSpeedY += Input.GetAxis("Vertical") * playerAccerlation * Time.deltaTime;
+        }
+
+        // Are we at the top speed for Y?
+        if (Math.Abs(playerSpeedY) > playerSpeedMax)
+        {
+            if (playerSpeedY < 0)
+            {
+                playerSpeedY = -1 * playerSpeedMax;
+            }
+            else
+            {
+                playerSpeedY = playerSpeedMax;
+            }
+        }
+
+        // Move along Y at our speed
+        player.y += playerSpeedY;
     }
 }
