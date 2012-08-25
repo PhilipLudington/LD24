@@ -26,9 +26,19 @@ namespace MrPhilEngine
             }
         }
 
-        public Image CreateImage(string fullPathToTexture)
+        public Text CreateText(string textString, string fontName)
         {
-            Image image = new Image(resourceManager, fullPathToTexture);
+            Font font = resourceManager.GetFont(fontName);
+
+            Text text = new Text(textString, font);
+            entities.Add(text);
+
+            return text;
+        }
+
+        public Image CreateImage(string textureName)
+        {
+            Image image = new Image(resourceManager, textureName);
             entities.Add(image);
 
             return image;
