@@ -87,18 +87,6 @@ public class LD24 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Did we bump into a brick?
-        foreach (FSprite brick in bricks)
-        {
-            Rect rectBrick = brick.textureRect.CloneAndOffset(brick.x, brick.y);
-            Rect rectPlayer = player.textureRect.CloneAndOffset(player.x, player.y);
-            if (rectPlayer.CheckIntersect(rectBrick))
-            {
-                playerSpeedY = 0;
-                playerSpeedX = 0;
-            }
-        }
-
         // Is player breaking
         if (Input.GetKey(KeyCode.Space))
         {
@@ -171,13 +159,11 @@ public class LD24 : MonoBehaviour
         // Did we bump into bottom or top of the screen?
         if (player.y + player.height > 768)
         {
-            Debug.Log(player.y);
             playerSpeedY = 0;
             player.y = 768 - player.height;
         }
         else if (player.y < 0)
         {
-            Debug.Log(player.y);
             playerSpeedY = 0;
             player.y = 0;
         }
@@ -185,15 +171,28 @@ public class LD24 : MonoBehaviour
         // Did we bump into the left or right of the screen?
         if (player.x + player.width > 1024)
         {
-            Debug.Log(player.x);
             playerSpeedX = 0;
             player.x = 1024 - player.width;
         }
         else if (player.x < 0)
         {
-            Debug.Log(player.x);
             playerSpeedX = 0;
             player.x = 0;
+        }
+
+        // Did we bump into a brick?
+        foreach (FSprite brick in bricks)
+        {
+            Rect rectBrick = brick.textureRect.CloneAndOffset(brick.x, brick.y);
+            Rect rectPlayer = player.textureRect.CloneAndOffset(player.x, player.y);
+            if (rectPlayer.CheckIntersect(rectBrick))
+            {
+                if (rectPlayer.y + player.height >= rectBrick.y)
+                {
+                    playerSpeedY = 0;
+                    player.y = rectBrick.y - player.height - 1;
+                }
+            }
         }
 
         // Move along X at our speed
