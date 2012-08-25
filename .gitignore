@@ -14,3 +14,5 @@ obj
 /Assets/Resources/Shaders/UnlitTransparentVertexColoredAdditive.*
 /Temp
 /Diary
+/Assets/Resources/Atlases
+/Art/*.png

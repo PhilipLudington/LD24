@@ -2,11 +2,19 @@
 
 "Background.png":
 {
-	"frame": {"x":755,"y":2,"w":1,"h":1},
+	"frame": {"x":761,"y":2,"w":1,"h":1},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
 	"sourceSize": {"w":1,"h":1}
+},
+"Backgroundx4.png":
+{
+	"frame": {"x":755,"y":2,"w":4,"h":4},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":4},
+	"sourceSize": {"w":4,"h":4}
 },
 "Brick.png":
 {
@@ -39,6 +47,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:df323caff752b3d2a245844afb941cbb$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7d6d9d86464668215a63e117ab570d3e$"
 }
 }

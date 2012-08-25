@@ -1,9 +1,12 @@
-using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LD24 : MonoBehaviour
 {
+    List<FSprite> bricks = new List<FSprite>();
+    FContainer fContainerMain = new FContainer();
+
 
     // Use this for initialization
     void Start()
@@ -16,18 +19,15 @@ public class LD24 : MonoBehaviour
         futileParams.shouldLerpToNearestResolutionLevel = false;
 
         Futile.instance.Init(futileParams);
-        Futile.screen.SignalResize += new System.Action<bool>(screen_SignalResize);
-        screen_SignalResize(true);
+        //Futile.screen.SignalResize += new System.Action<bool>(screen_SignalResize);
+        //screen_SignalResize(true);
 
         Futile.atlasManager.LoadAtlas("Atlases/Atlas-1");
 
-        FSprite sprite3 = new FSprite("Background.png");
-        sprite3.anchorX = 0;
-        sprite3.anchorY = sprite3.height;
-        sprite3.x = 0;
-        sprite3.y = Futile.screen.height;
-        sprite3.scaleX = Futile.screen.width;
-        sprite3.scaleY = Futile.screen.height;
+        FSprite sprite3 = new FSprite("Backgroundx4.png");
+        sprite3.x = Futile.screen.halfWidth;
+        sprite3.y = Futile.screen.halfHeight;
+        sprite3.scale = 256;
 
         Futile.stage.AddChild(sprite3);
 
@@ -48,12 +48,10 @@ public class LD24 : MonoBehaviour
         Futile.stage.AddChild(sprite2);
 
         FSprite sprite4 = new FSprite("Brick.png");
-        sprite4.anchorX = 0;
-        sprite4.anchorY = 0;
         sprite4.x = 50;
         sprite4.y = 50;
 
-        Futile.stage.AddChild(sprite2);
+        Futile.stage.AddChild(sprite4);
     }
 
     void screen_SignalResize(bool obj)
