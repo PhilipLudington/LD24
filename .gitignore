@@ -1,5 +1,7 @@
 bin
 obj
+*.sln
+*.csproj
 *.suo
 *.user
 /SFML

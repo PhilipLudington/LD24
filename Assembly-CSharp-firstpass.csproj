@@ -134,6 +134,8 @@
      <Compile Include="Assets\Plugins\GoKit\properties\splines\GoSplineQuadraticBezierSolver.cs" />
      <Compile Include="Assets\Plugins\GoKit\properties\splines\GoSplineStraightLineSolver.cs" />
      <Compile Include="Assets\Plugins\MiniJSON.cs" />
+     <Compile Include="Assets\Plugins\StateKit\SKState.cs" />
+     <Compile Include="Assets\Plugins\StateKit\SKStateMachine.cs" />
      <None Include="Assets\Plugins\GoKit\easing\easeEquationsLicense.txt" />
      <None Include="Assets\Resources\Shaders\UnlitTransparentVertexColoredAdditive.shader" />
      <None Include="Assets\Resources\Shaders\UnlitTransparentVertexColored.shader" />
