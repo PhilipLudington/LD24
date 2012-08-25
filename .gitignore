@@ -5,3 +5,9 @@ obj
 /SFML
 /Library
 /Publish
+/Assets/Plugins
+/Assets/Plugins.meta
+/Assets/Resources/Shaders/Unlit.*
+/Assets/Resources/Shaders/UnlitTransparentVertexColored.*
+/Assets/Resources/Shaders/UnlitTransparentVertexColoredAdditive.*
+/Temp
