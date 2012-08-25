@@ -1,0 +1,44 @@
+{"frames": {
+
+"Background.png":
+{
+	"frame": {"x":755,"y":2,"w":1,"h":1},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
+	"sourceSize": {"w":1,"h":1}
+},
+"Brick.png":
+{
+	"frame": {"x":713,"y":2,"w":40,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":10},
+	"sourceSize": {"w":40,"h":10}
+},
+"Ludum-Dare.png":
+{
+	"frame": {"x":2,"y":121,"w":573,"h":401},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":6,"w":573,"h":401},
+	"sourceSize": {"w":577,"h":409}
+},
+"MrPhilGamesLogo737.png":
+{
+	"frame": {"x":2,"y":2,"w":709,"h":117},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":12,"w":709,"h":117},
+	"sourceSize": {"w":737,"h":129}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "Atlas-1.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:df323caff752b3d2a245844afb941cbb$"
+}
+}
