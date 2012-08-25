@@ -11,6 +11,7 @@ public class LD24 : MonoBehaviour
     private float playerSpeedY = 0.0f;
     private float playerAccerlation = 5.0f;
     private float playerSpeedMax = 100.0f;
+    private float playerBreakSpeed = 7.0f;
 
     // Use this for initialization
     void Start()
@@ -78,6 +79,8 @@ public class LD24 : MonoBehaviour
                 fContainerMain.AddChild(brick);
             }
         }
+
+        Debug.Log(bricks.Count);
     }
 
     void screen_SignalResize(bool obj)
@@ -102,21 +105,46 @@ public class LD24 : MonoBehaviour
             }
         }
 
-        // Did we bump into the left or right of the screen?
-        if (player.x + player.width > 1024 )
+        // Is player breaking
+        if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log(player.x);
-            playerSpeedX = 0;
-            player.x = 1024 - player.width;
-        }
-        else if( player.x < 0)
-        {
-            Debug.Log(player.x);
-            playerSpeedX = 0;
-            player.x = 0;
+            if (playerSpeedX < 0)
+            {
+                playerSpeedX += playerBreakSpeed * Time.deltaTime;
+                if (playerSpeedX > 0)
+                {
+                    playerSpeedX = 0;
+                }
+            }
+            else
+            {
+                playerSpeedX -= playerBreakSpeed * Time.deltaTime;
+                if (playerSpeedX < 0)
+                {
+                    playerSpeedX = 0;
+                }
+            }
+
+            if (playerSpeedY < 0)
+            {
+                playerSpeedY += playerBreakSpeed * Time.deltaTime;
+                if (playerSpeedY > 0)
+                {
+                    playerSpeedY = 0;
+                }
+            }
+            else
+            {
+                playerSpeedY -= playerBreakSpeed * Time.deltaTime;
+                if (playerSpeedY < 0)
+                {
+                    playerSpeedY = 0;
+                }
+            }
         }
         else
         {
+            playerSpeedY += Input.GetAxis("Vertical") * playerAccerlation * Time.deltaTime;
             playerSpeedX += Input.GetAxis("Horizontal") * playerAccerlation * Time.deltaTime;
         }
 
@@ -133,27 +161,6 @@ public class LD24 : MonoBehaviour
             }
         }
 
-        // Move along X at our speed
-        player.x += playerSpeedX;
-
-        // Did we bump into bottom or top of the screen?
-        if (player.y + player.height > 768 )
-        {
-            Debug.Log(player.y);
-            playerSpeedY = 0;
-            player.y = 768 - player.height;
-        }
-        else if( player.y < 0)
-        {
-            Debug.Log(player.y);
-            playerSpeedY = 0;
-            player.y = 0;
-        }
-        else
-        {
-            playerSpeedY += Input.GetAxis("Vertical") * playerAccerlation * Time.deltaTime;
-        }
-
         // Are we at the top speed for Y?
         if (Math.Abs(playerSpeedY) > playerSpeedMax)
         {
@@ -166,6 +173,37 @@ public class LD24 : MonoBehaviour
                 playerSpeedY = playerSpeedMax;
             }
         }
+
+        // Did we bump into bottom or top of the screen?
+        if (player.y + player.height > 768)
+        {
+            Debug.Log(player.y);
+            playerSpeedY = 0;
+            player.y = 768 - player.height;
+        }
+        else if (player.y < 0)
+        {
+            Debug.Log(player.y);
+            playerSpeedY = 0;
+            player.y = 0;
+        }
+
+        // Did we bump into the left or right of the screen?
+        if (player.x + player.width > 1024)
+        {
+            Debug.Log(player.x);
+            playerSpeedX = 0;
+            player.x = 1024 - player.width;
+        }
+        else if (player.x < 0)
+        {
+            Debug.Log(player.x);
+            playerSpeedX = 0;
+            player.x = 0;
+        }
+
+        // Move along X at our speed
+        player.x += playerSpeedX;
 
         // Move along Y at our speed
         player.y += playerSpeedY;
