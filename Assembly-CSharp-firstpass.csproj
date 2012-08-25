@@ -139,6 +139,7 @@
      <None Include="Assets\Plugins\GoKit\easing\easeEquationsLicense.txt" />
      <None Include="Assets\Resources\Shaders\UnlitTransparentVertexColoredAdditive.shader" />
      <None Include="Assets\Resources\Shaders\UnlitTransparentVertexColored.shader" />
+     <None Include="Assets\Resources\Atlases\Atlas-1.txt" />
      <None Include="Assets\Resources\Shaders\Unlit.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

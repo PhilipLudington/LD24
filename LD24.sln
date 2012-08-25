@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{FBF3B745-9D45-89E0-D63A-5048F3F59D30}") = "LD24", "Assembly-CSharp-firstpass.csproj", "{89B1B120-B156-C2E4-A56E-D22DAC778FCB}"
 EndProject
+Project("{FBF3B745-9D45-89E0-D63A-5048F3F59D30}") = "LD24", "Assembly-CSharp.csproj", "{7794A1E9-762E-B9E7-94BA-8B3121CE2AA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{89B1B120-B156-C2E4-A56E-D22DAC778FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89B1B120-B156-C2E4-A56E-D22DAC778FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89B1B120-B156-C2E4-A56E-D22DAC778FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7794A1E9-762E-B9E7-94BA-8B3121CE2AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7794A1E9-762E-B9E7-94BA-8B3121CE2AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7794A1E9-762E-B9E7-94BA-8B3121CE2AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7794A1E9-762E-B9E7-94BA-8B3121CE2AA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-						GlobalSection(MonoDevelopProperties) = preSolution
+										GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
