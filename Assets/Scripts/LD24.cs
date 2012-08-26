@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class LD24 : MonoBehaviour
 {
-    private List<FSprite> bricks = new List<FSprite>();
+    public GameObject BrickHolder;
+
+    public float playerAccerlation = 5.0f;
+    public float playerSpeedMax = 100.0f;
+    public float playerBreakSpeed = 7.0f;
+    public float timeToKillMatch = 1.8f;
+
+    private static List<Brick> bricks = new List<Brick>();
     private FContainer fContainerMain = new FContainer();
     private FContainer fContainerDeath = new FContainer();
     private FContainer fContainerBackground = new FContainer();
     private FSprite player;
     private float playerSpeedX = 0.0f;
     private float playerSpeedY = 0.0f;
-    private float playerAccerlation = 5.0f;
-    private float playerSpeedMax = 100.0f;
-    private float playerBreakSpeed = 7.0f;
+    private bool killing = false;
+    private static List<Tween> killingList = new List<Tween>();
 
     // Use this for initialization
     void Start()
@@ -65,12 +71,7 @@ public class LD24 : MonoBehaviour
 
     private void AddBrick(float x, float y)
     {
-        FSprite brick = new FSprite("Brick.png");
-        brick.anchorX = 0;
-        brick.anchorY = 0;
-        brick.color = new Color(UnityEngine.Random.Range(0, 100) / 100.0f,
-            UnityEngine.Random.Range(0, 100) / 100.0f,
-            UnityEngine.Random.Range(0, 100) / 100.0f, 1);
+        Brick brick = new Brick();
         brick.x = x;
         brick.y = y;
 
@@ -187,7 +188,7 @@ public class LD24 : MonoBehaviour
         // Did we bump into a brick?
         for (int i = bricks.Count - 1; i >= 0; i--)
         {
-            FSprite brick = bricks[i];
+            Brick brick = bricks[i];
 
             Rect rectBrick = brick.textureRect.CloneAndOffset(brick.x, brick.y);
             Rect rectPlayer = player.textureRect.CloneAndOffset(player.x, player.y);
@@ -197,12 +198,19 @@ public class LD24 : MonoBehaviour
                     && rectPlayer.y + player.height <= rectBrick.y + brick.height)
                 {
                     playerSpeedY = 0;
-                    player.y = rectBrick.y - player.height - 1;
+                    player.y = brick.y - player.height - 1;
 
-                    BrickDeath(brick);
-                    bricks.Remove(brick);
+                    if (CheckMatch(brick))
+                    {
+                        BrickDeath(brick);
+                    }
                 }
             }
+        }
+
+        // Did we stop touching a brick on the killing list?
+        for (int i = killingList.Count - 1; i >= 0; i--)
+        {
         }
 
         // Move along X at our speed
@@ -212,22 +220,24 @@ public class LD24 : MonoBehaviour
         player.y += playerSpeedY;
     }
 
-    private void BrickDeath(FSprite brick)
+    private void BrickDeath(Brick brick)
     {
         fContainerDeath.AddChild(brick);
 
         TweenConfig tweenConfig = new TweenConfig()
             .floatProp("scale", 1.6f)
-            .floatProp("alpha", 0.0f)
+            .floatProp("alpha", 0.5f)
             .colorProp("color", new Color(1, 1, 1, 1))
             .onComplete(BrickDead);
-        Go.to(brick, 0.3f, tweenConfig);
+        brick.Tween = Go.to(brick, timeToKillMatch, tweenConfig);
     }
 
     private static void BrickDead(AbstractTween tween)
     {
-        FSprite brick = (tween as Tween).target as FSprite;
+        Tween tweenReal = tween as Tween;
+        Brick brick = tweenReal.target as Brick;
         brick.RemoveFromContainer();
+        bricks.Remove(brick);
     }
 
     private void AddLogos()
@@ -248,5 +258,17 @@ public class LD24 : MonoBehaviour
         sprite2.y = Futile.screen.height - sprite2.height;
 
         fContainerBackground.AddChild(sprite2);
+    }
+
+    private bool CheckMatch(Brick brick)
+    {
+        if (brick.BeingKilled)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }
