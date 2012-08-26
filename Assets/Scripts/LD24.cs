@@ -18,8 +18,7 @@ public class LD24 : MonoBehaviour
     private FSprite player;
     private float playerSpeedX = 0.0f;
     private float playerSpeedY = 0.0f;
-    private bool killing = false;
-    private static List<Tween> killingList = new List<Tween>();
+    private static List<Brick> killingList = new List<Brick>();
 
     // Use this for initialization
     void Start()
@@ -186,6 +185,7 @@ public class LD24 : MonoBehaviour
         }
 
         // Did we bump into a brick?
+        List<Brick> stillTouching = new List<Brick>();
         for (int i = bricks.Count - 1; i >= 0; i--)
         {
             Brick brick = bricks[i];
@@ -200,7 +200,11 @@ public class LD24 : MonoBehaviour
                     playerSpeedY = 0;
                     player.y = brick.y - player.height - 1;
 
-                    if (CheckMatch(brick))
+                    if (brick.BeingKilled)
+                    {
+                        stillTouching.Add(brick);
+                    }
+                    else if (CheckMatch(brick))
                     {
                         BrickDeath(brick);
                     }
@@ -211,6 +215,18 @@ public class LD24 : MonoBehaviour
         // Did we stop touching a brick on the killing list?
         for (int i = killingList.Count - 1; i >= 0; i--)
         {
+            Brick brick = killingList[i];
+            if (stillTouching.Contains(brick))
+            {
+                // Good, do nothing
+            }
+            else
+            {
+                // Bad, let it live
+                brick.BeingKilled = false;
+                brick.Tween.reverse();
+                killingList.Remove(brick);
+            }
         }
 
         // Move along X at our speed
@@ -222,6 +238,8 @@ public class LD24 : MonoBehaviour
 
     private void BrickDeath(Brick brick)
     {
+        brick.BeingKilled = true;
+
         fContainerDeath.AddChild(brick);
 
         TweenConfig tweenConfig = new TweenConfig()
@@ -236,8 +254,13 @@ public class LD24 : MonoBehaviour
     {
         Tween tweenReal = tween as Tween;
         Brick brick = tweenReal.target as Brick;
-        brick.RemoveFromContainer();
-        bricks.Remove(brick);
+
+        // Make sure I'm still dieing
+        if (brick.BeingKilled == true)
+        {
+            brick.RemoveFromContainer();
+            bricks.Remove(brick);
+        }
     }
 
     private void AddLogos()
@@ -262,13 +285,6 @@ public class LD24 : MonoBehaviour
 
     private bool CheckMatch(Brick brick)
     {
-        if (brick.BeingKilled)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 }
